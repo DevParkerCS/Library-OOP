@@ -13,10 +13,9 @@ public class Tool {
     }
   }
 
-  public void checkInTool() {
-    if (checkedOutBy != null) {
+  public boolean checkInTool() {
       checkedOutBy = null;
-    }
+      return true;
   }
 
   public boolean isToolCheckedOut() {

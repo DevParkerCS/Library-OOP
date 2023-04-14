@@ -3,7 +3,7 @@ public class Library {
   // attributes here
   String name;
   Book[] books;
-  Tool[] tools = new Tool[5];
+  Tool[] tools = new Tool[4];
   int numBooks = 0;
   int numTools = 0;
   int capacity;
@@ -11,7 +11,6 @@ public class Library {
   public Library(String name, int capacity) {
     this.name = name;
     this.books = new Book[capacity];
-    this.tools = new Tool[capacity];
   }
 
   public BookClub createBookClub(int membersAllowed) {
@@ -37,21 +36,31 @@ public class Library {
   }
 
   public void fillTools() {
-    for (int i = 0; i < tools.length - 1; i++) {
+    for (int i = 0; i < tools.length; i++) {
       tools[i] = new Tool();
     }
   }
 
-  public boolean isToolAvailable(String name) {
-    for (int i = 0; i < tools.length - 1; i++) {
-      System.out.println(tools[1]);
-      if (tools[i].checkedOutBy.equals(null)) {
+  public boolean checkOutTool(String name) {
+    for (int i = 0; i < tools.length; i++) {
+      if (tools[i].checkedOutBy == null) {
         tools[i].checkOutTool(name);
         System.out.println("Checked Out Tool To " + name);
         return true;
       }
     }
     System.out.println("All tools are currently checked out");
+    return false;
+  }
+
+  public boolean checkInTool(String name){
+    for (int i = 0; i < tools.length; i++){
+      if (tools[i].checkedOutBy == name){
+        System.out.println(name + " returned their tools");
+        return tools[i].checkInTool();
+      }
+    }
+    System.out.println("Imposter!");
     return false;
   }
 
@@ -116,15 +125,23 @@ public class Library {
   public static void main(String[] args) {
     Library BPL = new Library("Bellingham Public Library", 3);
     BPL.fillTools();
-    BPL.isToolAvailable("Parker");
 
-    // BookClub bookClub = BPL.createBookClub(3);
-    // BPL.addClubMember("Parker", bookClub);
-    // BPL.addClubMember("Johnson", bookClub);
-    // BPL.addClubMember("Jacob", bookClub);
-    // BPL.addClubMember("Devin", bookClub);
-    // BPL.removeClubMember("Jacob", bookClub);
-    // BPL.addClubMember("Devin", bookClub);
+    BPL.checkOutTool("Parker");
+    BPL.checkOutTool("John");
+    BPL.checkInTool("Parker");
+    BPL.checkInTool("Parker");
+    BPL.checkOutTool("Jacob");
+    BPL.checkOutTool("Sam");
+    BPL.checkOutTool("Larry");
+    BPL.checkOutTool("Parker");
+
+    BookClub bookClub = BPL.createBookClub(3);
+    BPL.addClubMember("Parker", bookClub);
+    BPL.addClubMember("Johnson", bookClub);
+    BPL.addClubMember("Jacob", bookClub);
+    BPL.addClubMember("Devin", bookClub);
+    BPL.removeClubMember("Jacob", bookClub);
+    BPL.addClubMember("Devin", bookClub);
 
     Book mockingbird = new Book("To Kill a Mockingbird", "Harper Lee");
     Book n84 = new Book("1984", "George Orwell");
